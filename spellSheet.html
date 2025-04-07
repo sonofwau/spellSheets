@@ -124,7 +124,7 @@
         color: red;
         font-size: 0.8em;
         position: relative;
-        bottom: -10px; /* Adjust as needed */
+        bottom: 10px; /* Adjust as needed */
     }
   </style>
 </head>
@@ -136,7 +136,7 @@
         <div style="width:49%; float:left">
             <label for="spellName">Spell Name:
             <input id="spellName" name="spellName" type="text"></label>
-            <span id="spellNameError" class="error-message">test</span>
+            <span id="spellNameError" class="error-message"></span>
         </div>
         <div style="width:20%; float:left">
             <label for="level">Level:
@@ -208,6 +208,7 @@
     form.addEventListener('reset', (r) => {
       //r.preventDefault();
       debugPara.style.display = 'none'
+      spellNameError.textContent = ''
       form.reset();
     })/**/
 
@@ -228,7 +229,7 @@
         //debugPara.style.display = ''
         spellNameError.textContent = 'This field is required'
       } else {
-        debugPara.style.display = 'none'
+        spellNameError.textContent = ''
         const spell = {
           name, level, school, castingTime, range, components, duration, description
         };
