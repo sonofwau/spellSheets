@@ -11,7 +11,7 @@
       padding: 2rem;
     }
     form {
-      margin-bottom: 5rem;
+      margin-bottom: 2rem;
       background: white;
       padding: 1rem;
       border-radius: 10px;
@@ -91,10 +91,11 @@
       body {
         background: white;
         padding: 0;
+        font-size: 12px;
       }
-      form, .card button, #controls {
+      form,/**/ .card button, #controls {
         display: none;
-      }
+      }/**/
       #spellContainer {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.5in;
@@ -111,7 +112,7 @@
     .level-group {
         break-inside: avoid;
         page-break-inside: avoid;
-    }
+    }/**/
 
     .two-col {
         overflow: hidden;/* Makes this div contain its floats */
@@ -184,10 +185,11 @@
             <label for="duration">Duration:
             <input id="duration" name="duration" type="text"></label>
         </div>
+      </div>
     <label>Description: <textarea id="description" rows="5"></textarea></label>
     <button type="submit">Add Spell</button><button type="reset">Reset</button>
   </form>
-  <label></label>
+
   <div id="controls">
     <button onclick="exportSpells()">Export Spells</button>
     <input class="fileInput" type="file" id="importFile" accept="application/json" />
