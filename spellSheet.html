@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spell Card Creator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 2rem;
+    }
+    form {
+      margin-bottom: 5rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+    input, textarea, select {
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      width: 93%;
+    }
+    button {
+        margin-bottom: 0.5rem
+    }
+    input.fileInput {
+      padding: 0rem;
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+    #spellContainer {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .card {
+      background: #009fdb;
+      color: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .card h2 {
+      margin: 0;
+    }
+    .section {
+      font-weight: bold;
+    }
+    .desc {
+      background: white;
+      color: black;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      overflow: auto;
+      max-height: 200px;
+    }
+    .button-row {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .card button {
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+    }
+    #controls {
+      margin-bottom: 1rem;
+    }
+    .bw .card {
+      background: white !important;
+      color: black !important;
+    }
+    .bw .desc {
+      background: #f5f5f5;
+    }
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      form, .card button, #controls {
+        display: none;
+      }
+      #spellContainer {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5in;
+      }
+      .card {
+        page-break-inside: avoid;
+        box-shadow: none;
+      }
+      .desc {
+        max-height: none !important;
+        overflow: visible !important;
+      }
+    }
+    .level-group {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .two-col {
+        overflow: hidden;/* Makes this div contain its floats */
+    }
+
+    .two-col label {
+        display: block;
+    }
+  </style>
+</head>
+<body>
+  <form id="spellForm">
+    <input type="hidden" id="editingIndex" />
+    <div class="two-col">
+        <div style="width:49%; float:left">
+            <label for="spellName">Spell Name:
+            <input id="spellName" name="spellName" type="text"></label>
+        </div>
+        <div style="width:20%; float:left">
+            <label for="level">Level:
+            <select id="level" name="level">
+                <option value="0">Cantrip</option>
+                <option value="1st">1st Level</option>
+                <option value="2nd">2nd Level</option>
+                <option value="3rd">3rd Level</option>
+                <option value="4th">4th Level</option>
+                <option value="5th">5th Level</option>
+                <option value="6th">6th Level</option>
+                <option value="7th">7th Level</option>
+                <option value="8th">8th Level</option>
+                <option value="9th">9th Level</option>
+            </select></label>
+        </div>
+        <div style="width:20%; float:left">
+            <label for="school">School:
+            <select id="school" name="school">
+                <option value="Abjuration">Abjuration</option>
+                <option value="Conjuration">Conjuration</option>
+                <option value="Divination">Divination</option>
+                <option value="Enchantment">Enchantment</option>
+                <option value="Evocation">Evocation</option>
+                <option value="Illusion">Illusion</option>
+                <option value="Necromancy">Necromancy</option>
+                <option value="Transmutation">Transmutation</option>
+            </select></label>
+        </div>
+    </div>
+    <div class="two-col">
+        <div style="width:25%; float:left">
+            <label for="castingTime">Casting Time:
+            <input id="castingTime" name="castingTime" type="text"></label>
+        </div>
+        <div style="width:25%; float:left">
+            <label for="range">Range/Area:
+            <input id="range" name="range" type="text"></label>
+        </div>
+        <div style="width:25%; float:left">
+            <label for="components">Components:
+            <input id="components" name="components" type="text"></label>
+        </div>
+        <div style="width:25%; float:left">
+            <label for="duration">Duration:
+            <input id="duration" name="duration" type="text"></label>
+        </div>
+    <label>Description: <textarea id="description" rows="5"></textarea></label>
+    <button type="submit">Add Spell</button>
+  </form>
+  <label></label>
+  <div id="controls">
+    <button onclick="exportSpells()">Export Spells</button>
+    <input class="fileInput" type="file" id="importFile" accept="application/json" />
+    <button onclick="toggleColorMode()">Toggle B/W</button>
+    <button onclick="window.print()">Print All</button>
+  </div>
+
+  <div id="spellContainer"></div>
+
+  <script>
+    const form = document.getElementById('spellForm');
+    const container = document.getElementById('spellContainer');
+    const importFile = document.getElementById('importFile');
+    const spells = [];
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('spellName').value;
+      const level = document.getElementById('level').value;
+      const school = document.getElementById('school').value;
+      const castingTime = document.getElementById('castingTime').value;
+      const range = document.getElementById('range').value;
+      const components = document.getElementById('components').value;
+      const duration = document.getElementById('duration').value;
+      const description = document.getElementById('description').value;
+      const editingIndex = document.getElementById('editingIndex').value;
+
+      const spell = {
+        name, level, school, castingTime, range, components, duration, description
+      };
+
+      if (editingIndex !== '') {
+        spells[editingIndex] = spell;
+        document.getElementById('editingIndex').value = '';
+      } else {
+        spells.push(spell);
+      }
+
+      spells.sort((a, b) => parseInt(a.level) - parseInt(b.level) || a.name.localeCompare(b.name));
+      renderSpells();
+      form.reset();
+    });
+
+    function renderSpells() {
+      container.innerHTML = '';
+      spells.forEach((spell, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h2>${spell.name}</h2>
+          <div><em>${spell.level === 0 ? 'Cantrip' : spell.level + ' Level'} - ${spell.school}</em></div>
+          <div><span class="section">Casting Time:</span> ${spell.castingTime}</div>
+          <div><span class="section">Range:</span> ${spell.range}</div>
+          <div><span class="section">Components:</span> ${spell.components}</div>
+          <div><span class="section">Duration:</span> ${spell.duration}</div>
+          <div class="desc">${spell.description
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/_(.*?)_/g, '<em>$1</em>')
+            .replace(/~(.*?)~/g, '<u>$1</u>')
+            .replace(/`(.*?)`/g, '<code>$1</code>')
+            .replace(/\n/g, '<br>')}</div>
+          <div class="button-row">
+            <button onclick="editSpell(${index})">Edit</button>
+            <button onclick="deleteSpell(${index})">Delete</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    window.editSpell = function(index) {
+      const spell = spells[index];
+      document.getElementById('spellName').value = spell.name;
+      document.getElementById('level').value = spell.level;
+      document.getElementById('school').value = spell.school;
+      document.getElementById('castingTime').value = spell.castingTime;
+      document.getElementById('range').value = spell.range;
+      document.getElementById('components').value = spell.components;
+      document.getElementById('duration').value = spell.duration;
+      document.getElementById('description').value = spell.description;
+      document.getElementById('editingIndex').value = index;
+    }
+
+    window.deleteSpell = function(index) {
+      spells.splice(index, 1);
+      renderSpells();
+    }
+
+    function exportSpells() {
+      const blob = new Blob([JSON.stringify(spells, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'spells.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    importFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (Array.isArray(imported)) {
+            spells.length = 0;
+            spells.push(...imported);
+            spells.sort((a, b) => parseInt(a.level) - parseInt(b.level) || a.name.localeCompare(b.name));
+            renderSpells();
+          } else {
+            alert('Invalid file format');
+          }
+        } catch {
+          alert('Error reading file');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    function toggleColorMode() {
+      document.body.classList.toggle('bw');
+    }
+  </script>
+</body>
+</html>
