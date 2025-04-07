@@ -42,12 +42,14 @@
     .card {
       background: #009fdb;
       color: white;
-      border-radius: 10px;
       padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+      border: 10px solid #c2b280;
+      border-image: url('https://i.imgur.com/NnK82NL.png') 30 stretch; /* Example scroll texture */
+      border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       break-inside: avoid;
-      display: flex;
-      flex-direction: column;
     }
     .card h2 {
       margin: 0;
@@ -81,7 +83,7 @@
       margin-bottom: 1rem;
     }
     .spellDiv {
-      display: '';
+      /*display: none;/**/
       text-align: center;
       border: 3px solid black;
       /*border-radius: 25px;
@@ -251,45 +253,47 @@
     <button onclick="window.print()">Print All</button>
   </div>
 
-  <div class="spellDiv" id="cantripsContainer">
-    <p>Cantrips</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="1stLevelContainer">
-    <p>1st Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="2ndLevelContainer">
-    <p>2nd Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="3rdLevelContainer">
-    <p>3rd Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="4thLevelContainer">
-    <p>4th Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="5thLevelContainer">
-    <p>5th Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="6thLevelContainer">
-    <p>6th Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="7thLevelContainer">
-    <p>7th Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="8thLevelContainer">
-    <p>8th Level Spells</p>
-    <div id="spellContainer"></div>
-  </div>
-  <div class="spellDiv" id="9thLevelContainer">
-    <p>9th Level Spells</p>
-    <div id="spellContainer"></div>
+  <div id="spellContainers">
+    <div class="spellDiv" id="cantripsContainer" style="display: none;">
+      <p>Cantrips</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="1stLevelContainer" style="display: none;">
+      <p>1st Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="2ndLevelContainer" style="display: none;">
+      <p>2nd Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="3rdLevelContainer" style="display: none;">
+      <p>3rd Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="4thLevelContainer" style="display: none;">
+      <p>4th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="5thLevelContainer" style="display: none;">
+      <p>5th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="6thLevelContainer" style="display: none;">
+      <p>6th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="7thLevelContainer" style="display: none;">
+      <p>7th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="8thLevelContainer" style="display: none;">
+      <p>8th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
+    <div class="spellDiv" id="9thLevelContainer" style="display: none;">
+      <p>9th Level Spells</p>
+      <div id="spellContainer"></div>
+    </div>
   </div>
 
   <script>
@@ -344,7 +348,7 @@
 
     function renderSpells() {
       //debugPara.style.display = ''
-
+      document.getElementById('cantripsContainer').style.display=""
       let spellList = document.querySelectorAll('#spellContainer')
       spellList.forEach(element => {
         element.innerHTML = '';
@@ -353,7 +357,7 @@
       spells.forEach((spell, index) => {
         let containerName = spell.level == 0 ? 'cantripsContainer' : `${spell.level}LevelContainer`;
         let outerContainer = document.getElementById(containerName);
-        outerContainer.style.display=''
+        outerContainer.style.display = ''
         let container = outerContainer.querySelector(`#spellContainer`);
 
         const card = document.createElement('div');
