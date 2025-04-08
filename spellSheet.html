@@ -34,11 +34,6 @@
       margin-bottom: 0.5rem;
       width: 100%;
     }
-    #spellContainer {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
     .card {
       background: #009fdb;
       color: white;
@@ -92,6 +87,12 @@
       break-inside: avoid;
       page-break-inside: avoid;
     }
+    #spellContainer {
+      text-align: left;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
     .bw .card {
       background: white !important;
       color: black !important;
@@ -123,23 +124,7 @@
         overflow: visible !important;
       }
     }
-    /*.level-group {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }/**/
-    /*.level-header {
-      break-inside: avoid;
-      column-span: all;
-      width: 100%;
-      margin: 1rem 0 0.5rem;
-      padding-top: 1rem;
-      border-top: 2px solid #ccc;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #333;
-    }/**/
-
-
+    
     .two-col {
         overflow: hidden;/* Makes this div contain its floats */
     }
@@ -166,7 +151,7 @@
             <input id="spellName" name="spellName" type="text"></label>
             <span id="spellNameError" class="error-message"></span>
         </div>
-        <div style="width:20%; float:left">
+        <div style="width:100px; float:left">
             <label for="level">Level:
             <select id="level" name="level">
                 <option value="0">Cantrip</option>
@@ -181,7 +166,7 @@
                 <option value="9th">9th Level</option>
             </select></label>
         </div>
-        <div style="width:20%; float:left">
+        <div style="width:150px; float:left">
             <label for="school">School:
             <select id="school" name="school">
                 <option value="Abjuration">Abjuration</option>
@@ -196,19 +181,19 @@
         </div>
     </div>
     <div class="two-col">
-        <div style="width:25%; float:left">
+        <div style="width:250px; float:left">
             <label for="castingTime">Casting Time:
             <input id="castingTime" name="castingTime" type="text"></label>
         </div>
-        <div style="width:25%; float:left">
+        <div style="width:250px; float:left">
             <label for="range">Range/Area:
             <input id="range" name="range" type="text"></label>
         </div>
-        <div style="width:25%; float:left">
+        <div style="width:250px; float:left">
             <label for="components">Components:
             <input id="components" name="components" type="text"></label>
         </div>
-        <div style="width:25%; float:left">
+        <div style="width:250px; float:left">
             <label for="duration">Duration:
             <input id="duration" name="duration" type="text"></label>
         </div>
@@ -217,7 +202,24 @@
     <button type="submit">Add Spell</button><button type="reset">Reset</button>
   </form>
 
-  <form id="casterInfo">
+  <div id="controls">
+    <button onclick="exportSpells()">Export Spells</button>
+    <button onclick="toggleColorMode()">Toggle B/W</button>
+    <button onclick="window.print()">Print All</button>
+    <button onclick="toggleCasterInfo()">Toggle Caster Information</button>
+    <label>Font Size: <select id="fontSize" style="width:60px">
+      <option value=8>8</option>
+      <option value=9>9</option>
+      <option value=10>10</option>
+      <option value=11>11</option>
+      <option value=12 selected="selected">12</option>
+      <option value=13>13</option>
+      <option value=14>14</option>
+    </select></label>
+    <label>Upload file: <input class="fileInput" type="file" id="importFile" accept="application/json" /></label>
+  </div>
+
+  <form id="casterInfo" style="display:none;">
     <h2>Caster Information</h2>
     <div class="two-col">
       <div style="width:15%; float:left">
@@ -246,52 +248,45 @@
     </div>
   </form>
 
-  <div id="controls">
-    <button onclick="exportSpells()">Export Spells</button>
-    <input class="fileInput" type="file" id="importFile" accept="application/json" />
-    <button onclick="toggleColorMode()">Toggle B/W</button>
-    <button onclick="window.print()">Print All</button>
-  </div>
-
   <div id="spellContainers">
     <div class="spellDiv" id="cantripsContainer" style="display: none;">
-      <p>Cantrips</p>
+      <h2>Cantrips</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="1stLevelContainer" style="display: none;">
-      <p>1st Level Spells</p>
+      <h2>1st Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="2ndLevelContainer" style="display: none;">
-      <p>2nd Level Spells</p>
+      <h2>2nd Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="3rdLevelContainer" style="display: none;">
-      <p>3rd Level Spells</p>
+      <h2>3rd Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="4thLevelContainer" style="display: none;">
-      <p>4th Level Spells</p>
+      <h2>4th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="5thLevelContainer" style="display: none;">
-      <p>5th Level Spells</p>
+      <h2>5th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="6thLevelContainer" style="display: none;">
-      <p>6th Level Spells</p>
+      <h2>6th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="7thLevelContainer" style="display: none;">
-      <p>7th Level Spells</p>
+      <h2>7th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="8thLevelContainer" style="display: none;">
-      <p>8th Level Spells</p>
+      <h2>8th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
     <div class="spellDiv" id="9thLevelContainer" style="display: none;">
-      <p>9th Level Spells</p>
+      <h2>9th Level Spells</h2>
       <div id="spellContainer"></div>
     </div>
   </div>
@@ -299,9 +294,18 @@
   <script>
     const form = document.getElementById('spellForm');
     const importFile = document.getElementById('importFile');
-    const debugPara = document.getElementById('debugParagraph')
-    const spellNameError = document.getElementById('spellNameError')
+    const debugPara = document.getElementById('debugParagraph');
+    const spellNameError = document.getElementById('spellNameError');
     const spells = [];
+
+    function toggleCasterInfo() {
+      const casterInfoForm = document.getElementById('casterInfo')
+      if (casterInfoForm.style.display === "none") {
+        casterInfoForm.style.display = ''
+      } else {
+        casterInfoForm.style.display = "none"
+      }
+    }
 
     form.addEventListener('reset', (r) => {
       //r.preventDefault();
