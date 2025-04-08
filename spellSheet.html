@@ -34,6 +34,21 @@
       margin-bottom: 0.5rem;
       width: 100%;
     }
+    .section {
+      font-weight: bold;
+    }
+    .desc {
+      background: white;
+      color: black;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      overflow: auto;
+      max-height: 200px;
+    }
+    #controls {
+      margin-bottom: 1rem;
+    }
     .card {
       background: #009fdb;
       color: white;
@@ -49,23 +64,6 @@
     .card h2 {
       margin: 0;
     }
-    .section {
-      font-weight: bold;
-    }
-    .desc {
-      background: white;
-      color: black;
-      padding: 0.5rem;
-      margin-top: 1rem;
-      border-radius: 6px;
-      overflow: auto;
-      max-height: 200px;
-    }
-    .button-row {
-      margin-top: 1rem;
-      display: flex;
-      gap: 0.5rem;
-    }
     .card button {
       background: white;
       color: black;
@@ -74,8 +72,10 @@
       padding: 0.2rem 0.5rem;
       cursor: pointer;
     }
-    #controls {
-      margin-bottom: 1rem;
+    .button-row {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
     }
     .spellDiv {
       /*display: none;/**/
@@ -89,7 +89,7 @@
     }
     #spellContainer {
       text-align: left;
-      display: grid;
+      display: grid;/**/
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
@@ -110,13 +110,15 @@
         display: none;
       }/**/
       #spellContainer {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5in;
-        /*break-inside: avoid;/**/
-        /*page-break-inside: avoid;/**/
+        display: block !important;
+        column-count: 2;
+        column-gap: 0.5in;
       }
       .card {
+        break-inside: avoid;
         page-break-inside: avoid;
+        display: inline-block;
+        width: 84%;
         box-shadow: none;
       }
       .desc {
