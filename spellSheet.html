@@ -126,11 +126,9 @@
         overflow: visible !important;
       }
     }
-    
     .two-col {
         overflow: hidden;/* Makes this div contain its floats */
     }
-
     .two-col label {
         display: block;
     }
@@ -149,7 +147,7 @@
     <p id="debugParagraph" style="display:none;"></p>
     <div class="two-col">
         <div style="width:49%; float:left">
-            <label for="spellName">Spell Name:
+            <label for="spellName">Spell Name:<br>
             <input id="spellName" name="spellName" type="text"></label>
             <span id="spellNameError" class="error-message"></span>
         </div>
@@ -184,20 +182,20 @@
     </div>
     <div class="two-col">
         <div style="width:250px; float:left">
-            <label for="castingTime">Casting Time:
-            <input id="castingTime" name="castingTime" type="text"></label>
+            <label for="castingTime">Casting Time:<br>
+            <input id="castingTime" name="castingTime" type="text" style="width:90%"></label>
         </div>
         <div style="width:250px; float:left">
-            <label for="range">Range/Area:
-            <input id="range" name="range" type="text"></label>
+            <label for="range">Range/Area:<br>
+            <input id="range" name="range" type="text" style="width:90%"></label>
         </div>
         <div style="width:250px; float:left">
-            <label for="components">Components:
-            <input id="components" name="components" type="text"></label>
+            <label for="components">Components:<br>
+            <input id="components" name="components" type="text" style="width:90%"></label>
         </div>
         <div style="width:250px; float:left">
-            <label for="duration">Duration:
-            <input id="duration" name="duration" type="text"></label>
+            <label for="duration">Duration:<br>
+            <input id="duration" name="duration" type="text" style="width:90%"></label>
         </div>
       </div>
     <label>Description: <textarea id="description" rows="5"></textarea></label>
@@ -224,16 +222,16 @@
   <form id="casterInfo" style="display:none;">
     <h2>Caster Information</h2>
     <div class="two-col">
-      <div style="width:15%; float:left">
-        <label for="spellAttack">Spell Attack: 
-          <input id="spellAttack" name="spellAttack" type="text"></input</label>
+      <div style="width:200px; float:left">
+        <label for="spellAttack">Spell Attack:<br>
+          <input id="spellAttack" name="spellAttack" type="text" style="width:88%"></label>
       </div>
-      <div style="width:15%; float:left">
-        <label for="spellDC">Spell DC:
-          <input id="spellDC" name="spellDC" type="text"></input</label>
+      <div style="width:200px; float:left">
+        <label for="spellDC">Spell DC:<br>
+          <input id="spellDC" name="spellDC" type="text" style="width:88%"></label>
       </div>
-      <div style="width:15%; float:left">
-        <label for="maxlevel">Highest Level Spell Slot:
+      <div style="width:250px; float:left">
+        <label for="maxlevel">Highest Level Spell Slot:<br>
           <select id="maxlevel" name="maxlevel">
               <option value="0">Cantrips</option>
               <option value="1st">1st Level</option>
